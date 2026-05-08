@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+require('dotenv').config();
 
-const CLIENT_ID = '3MVG9WVXk15qiz1LNczc7umatKvFfSKAjmsam4PG240A9FkXX4yYh0fLit6AgcKBsfo2KOllu_s8VWu4zHrop';
-const REDIRECT_URI = 'http://localhost:3000/callback';
-const LOGIN_URL = 'https://login.salesforce.com';
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const LOGIN_URL = process.env.LOGIN_URL;
 
 const app = express();
 app.use(cors());
