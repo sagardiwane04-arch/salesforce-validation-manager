@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 const CLIENT_ID = '3MVG9WVXk15qiz1LNczc7umatKvFfSKAjmsam4PG240A9FkXX4yYh0fLit6AgcKBsfo2KOllu_s8VWu4zHrop';      // from Connected App
-const REDIRECT_URI = 'http://localhost:3000/callback';
+const REDIRECT_URI = 'https://salesforce-validation-manager-gilt.vercel.app/callback';
 const SF_LOGIN_URL = 'https://login.salesforce.com';
 
 function App() {
