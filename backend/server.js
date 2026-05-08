@@ -3,7 +3,6 @@ const cors = require('cors');
 const axios = require('axios');
 
 const CLIENT_ID = '3MVG9WVXk15qiz1LNczc7umatKvFfSKAjmsam4PG240A9FkXX4yYh0fLit6AgcKBsfo2KOllu_s8VWu4zHrop';
-const CLIENT_SECRET = 'DAE48C0911A2E6120048ADCABA1C1B40704663E3955551CCB256C62473DDE5A7';
 const REDIRECT_URI = 'http://localhost:3000/callback';
 const LOGIN_URL = 'https://login.salesforce.com';
 
