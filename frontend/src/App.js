@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 const CLIENT_ID = '3MVG9WVXk15qiz1LNczc7umatKvFfSKAjmsam4PG240A9FkXX4yYh0fLit6AgcKBsfo2KOllu_s8VWu4zHrop';      // from Connected App
-const REDIRECT_URI = 'https://salesforce-validation-manager-gilt.vercel.app/callback';
+const REDIRECT_URI = 'http://localhost:3000/callback';
 const SF_LOGIN_URL = 'https://login.salesforce.com';
 
 function App() {
@@ -61,27 +61,35 @@ function App() {
 };
 
   // Step 4: Toggle a rule
-  const toggleRule = async (rule) => {
-    try {
-      await fetch(
-        `${instanceUrl}/services/data/v57.0/tooling/sobjects/ValidationRule/${rule.Id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ Active: !rule.Active }),
-        }
-      );
-      // Update UI
-      setRules(rules.map(r =>
-        r.Id === rule.Id ? { ...r, Active: !r.Active } : r
-      ));
-    } catch (err) {
-      alert('Error updating rule: ' + err.message);
-    }
-  };
+ const toggleRule = async (rule) => {
+  try {
+
+    const response = await axios.patch(
+      `http://localhost:5000/validation-rules/${rule.Id}`,
+      {
+        active: !rule.Active,
+        token: accessToken,
+        instance: instanceUrl
+      }
+    );
+
+    console.log(response.data);
+
+    setRules(
+      rules.map(r =>
+        r.Id === rule.Id
+          ? { ...r, Active: !r.Active }
+          : r
+      )
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert('Error updating rule: ' + err.message);
+  }
+};
 
   return (
     <div style={{ padding: '30px', fontFamily: 'Arial' }}>

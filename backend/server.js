@@ -42,7 +42,7 @@ app.get('/validation-rules', async (req, res) => {
     try {
         const token = req.query.token;
         const instance = req.query.instance;
-        const url = instance + '/services/data/v62.0/tooling/query/?q=SELECT+Id,ValidationName,EntityDefinition.QualifiedApiName,ErrorMessage+FROM+ValidationRule';
+        const url = instance +"/services/data/v62.0/tooling/query/?q=SELECT+Id,ValidationName,Active,EntityDefinition.QualifiedApiName,ErrorMessage+FROM+ValidationRule";
         const response = await axios.get(url, {
             headers: {
                 Authorization: 'Bearer ' + token
