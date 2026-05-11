@@ -10,6 +10,7 @@ const LOGIN_URL = process.env.LOGIN_URL;
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Backend Running');
@@ -53,7 +54,105 @@ app.get('/validation-rules', async (req, res) => {
         res.send(error.response?.data || error.message);
     }
 });
+app.patch('/validation-rules/:id', async (req, res) => {
 
+    try {
+
+        const ruleId = req.params.id;
+
+        const { active, token, instance } = req.body;
+
+        // Existing Rule Metadata
+        const getUrl =
+            `${instance}/services/data/v62.0/tooling/sobjects/ValidationRule/${ruleId}`;
+
+        const existingRule = await axios.get(getUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const metadata = existingRule.data.Metadata;
+
+        // Update Active Status
+        metadata.active = active;
+
+        // Update Validation Rule
+        await axios.patch(
+            getUrl,
+            {
+                Metadata: metadata
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        res.json({
+            success: true
+        });
+
+    } catch (error) {
+
+        console.log(error.response?.data || error.message);
+
+        res.status(500).json(
+            error.response?.data || { error: error.message }
+        );
+    }
+});app.patch('/validation-rules/:id', async (req, res) => {
+
+    try {
+
+        const ruleId = req.params.id;
+
+        const { active, token, instance } = req.body;
+
+        // Existing Rule Metadata
+        const getUrl =
+            `${instance}/services/data/v62.0/tooling/sobjects/ValidationRule/${ruleId}`;
+
+        const existingRule = await axios.get(getUrl, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const metadata = existingRule.data.Metadata;
+
+        // Update Active Status
+        metadata.active = active;
+
+        // Update Validation Rule
+        await axios.patch(
+            getUrl,
+            {
+                Metadata: metadata
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        res.json({
+            success: true
+        });
+
+    } catch (error) {
+
+        console.log(error.response?.data || error.message);
+
+        res.status(500).json(
+            error.response?.data || { error: error.message }
+        );
+    }
+});
 app.listen(5000, () => {
     console.log('Server running on port 5000');
 });
