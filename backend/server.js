@@ -43,7 +43,12 @@ app.get('/validation-rules', async (req, res) => {
     try {
         const token = req.query.token;
         const instance = req.query.instance;
-        const url = instance +"/services/data/v62.0/tooling/query/?q=SELECT+Id,ValidationName,Active,EntityDefinition.QualifiedApiName,ErrorMessage+FROM+ValidationRule";
+        const objectName = req.query.objectName;
+       const url =
+`${instance}/services/data/v62.0/tooling/query/?q=
+SELECT+Id,ValidationName,Active,EntityDefinition.QualifiedApiName,ErrorMessage
++FROM+ValidationRule
++WHERE+EntityDefinition.QualifiedApiName='${objectName}'`;
         const response = await axios.get(url, {
             headers: {
                 Authorization: 'Bearer ' + token
@@ -143,6 +148,33 @@ app.patch('/validation-rules/:id', async (req, res) => {
         res.json({
             success: true
         });
+
+    } catch (error) {
+
+        console.log(error.response?.data || error.message);
+
+        res.status(500).json(
+            error.response?.data || { error: error.message }
+        );
+    }
+});
+app.get('/objects', async (req, res) => {
+
+    try {
+
+        const token = req.query.token;
+        const instance = req.query.instance;
+
+        const response = await axios.get(
+            `${instance}/services/data/v62.0/sobjects`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        res.json(response.data);
 
     } catch (error) {
 
