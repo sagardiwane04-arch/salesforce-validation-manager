@@ -19,10 +19,7 @@ function App() {
   // Login
   const handleLogin = () => {
 
-    const authUrl =
-      `${SF_LOGIN_URL}/services/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
-
-    window.location.href = authUrl;
+window.location.href = "https://salesforce-validation-manager-lpkx.onrender.com/login";
   };
 
   // Get token after login
