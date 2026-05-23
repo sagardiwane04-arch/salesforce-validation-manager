@@ -15,6 +15,13 @@ app.use(express.json());
 
 // ✅ React Frontend Serve
 app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.get('/health', (req, res) => {
+    res.json({
+        clientId: CLIENT_ID ? CLIENT_ID.substring(0, 10) + '...' : 'NOT SET',
+        redirectUri: REDIRECT_URI,
+        loginUrl: LOGIN_URL
+    });
+});
 
 app.get('/login', (req, res) => {
     const loginUrl = LOGIN_URL + '/services/oauth2/authorize?response_type=code&client_id=' + CLIENT_ID + '&redirect_uri=' + REDIRECT_URI;
