@@ -13,8 +13,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ React Frontend Serve
-app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('/health', (req, res) => {
     res.json({
         clientId: CLIENT_ID ? CLIENT_ID.substring(0, 10) + '...' : 'NOT SET',
@@ -40,7 +38,6 @@ app.get('/callback', async (req, res) => {
                 code: code
             }
         });
-        // ✅ Frontend ला token पाठवा
         const { access_token, instance_url } = tokenResponse.data;
         res.redirect(`/?access_token=${access_token}&instance_url=${encodeURIComponent(instance_url)}`);
     } catch (error) {
@@ -99,12 +96,12 @@ app.patch('/validation-rules/:id', async (req, res) => {
     }
 });
 
-// ✅ सगळ्यात शेवटी - React catch-all
+// ✅ Static आणि catch-all सगळ्यात शेवटी
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.get('/{*path}', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
-// ✅ Render साठी PORT
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
