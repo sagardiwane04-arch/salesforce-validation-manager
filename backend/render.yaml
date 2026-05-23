@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: salesforce-validation-manager
+    env: node
+    buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: CLIENT_ID
+        sync: false
+      - key: CLIENT_SECRET
+        sync: false
+      - key: REDIRECT_URI
+        sync: false
+      - key: LOGIN_URL
+        sync: false
